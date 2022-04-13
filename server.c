@@ -43,7 +43,7 @@ int main(int argc, char** argv){
 			((int) from_addr.sin_addr.s_addr)>>24&0xff
 	);*/
 	//printf("sin_size=%d\n", sin_size);
-	printf("%s\n", buf);
+	printf("<-- %s\n", buf);
 	for(i=0; i<len/2; i++){
 		char t = buf[i];
 		buf[i] = buf[len-1-i];
