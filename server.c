@@ -5,8 +5,7 @@
 #include <netinet/in.h>
 #include "conf.h"
  
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	int sd, len, i;
 	struct sockaddr_in addr;
 
@@ -16,7 +15,7 @@ int main(int argc, char** argv)
 	char buf[2048];
 
 	if((sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("socket");
+		perror("cannot socket");
 		return -1;
 	}
 
@@ -25,7 +24,7 @@ int main(int argc, char** argv)
 	addr.sin_addr.s_addr = INADDR_ANY;
 
 	if(bind(sd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-		perror("bind");
+		perror("cannot bind");
 		return -1;
 	}
 
@@ -33,10 +32,16 @@ int main(int argc, char** argv)
 
 	sin_size = sizeof(from_addr);
 	if(recvfrom(sd, buf, sizeof(buf), 0, (struct sockaddr *) &from_addr, &sin_size) < 0) {
-		perror("recvfrom");
+		perror("cannot recvfrom");
 		return -1;
 	}
 	printf("port%d addr%x\n", from_addr.sin_port, from_addr.sin_addr);
+	printf("port%d addr%d.%d.%d.%d\n", from_addr.sin_port,
+		(from_addr.sin_addr >> 24),
+		(from_addr.sin_addr >> 16) & 0xff,
+		(from_addr.sin_addr >> 8) & 0xff,
+		from_addr.sin_addr  & 0xff
+	);
 	printf("sin_size=%d\n", sin_size);
 	printf("%s\n", buf);
 	for(i=0; i<len/2; i++){
@@ -45,7 +50,7 @@ int main(int argc, char** argv)
 		buf[len-1-i] = t;
 	}
 	if(sendto(sd, buf, len, 0, (struct sockaddr *)&from_addr, sizeof(from_addr)) < 0) {
-		perror("sendto");
+		perror("cannot sendto");
 		return -1;
 	}
 

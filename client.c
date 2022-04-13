@@ -4,14 +4,13 @@
 #include <netinet/in.h>
 #include "conf.h"
  
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	int sd, len;
 	struct sockaddr_in addr;
 	char buf[BUFSIZE+1];
 
 	if((sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("socket");
+		perror("cannot socket");
 		return -1;
 	}
 
@@ -24,13 +23,13 @@ int main(int argc, char** argv)
 	len = strnlen(buf, 16);
 
 	if(sendto(sd, buf, len, 0, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-		perror("sendto");
+		perror("cannot sendto");
 		return -1;
 	}
 	struct sockaddr_in from_addr;
 	socklen_t sin_size;
 	if(recvfrom(sd, buf, sizeof(buf), 0, (struct sockaddr *)&from_addr, &sin_size) < 0) {
-		perror("recvfrom");
+		perror("cannot recvfrom");
 		return -1;
 	}
 

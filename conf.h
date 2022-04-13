@@ -1,4 +1,4 @@
-#ifndef CONF_F
+﻿#ifndef CONF_F
 #define CONF_F
 #define PORT 12347
 #define BUFSIZE 16
