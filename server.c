@@ -1,4 +1,5 @@
 ﻿#include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -35,14 +36,13 @@ int main(int argc, char** argv){
 		perror("cannot recvfrom");
 		return -1;
 	}
-	printf("port%d addr%x\n", from_addr.sin_port, from_addr.sin_addr);
-	printf("port%d addr%d.%d.%d.%d\n", from_addr.sin_port,
-		(from_addr.sin_addr >> 24),
-		(from_addr.sin_addr >> 16) & 0xff,
-		(from_addr.sin_addr >> 8) & 0xff,
-		from_addr.sin_addr  & 0xff
-	);
-	printf("sin_size=%d\n", sin_size);
+	/*printf("port%d addr%u.%u.%u.%u\n", from_addr.sin_port,
+			((int) from_addr.sin_addr.s_addr)&0xff,
+			(((int) from_addr.sin_addr.s_addr)>>8)&0xff,
+			(((int) from_addr.sin_addr.s_addr)>>16)&0xff,
+			((int) from_addr.sin_addr.s_addr)>>24&0xff
+	);*/
+	//printf("sin_size=%d\n", sin_size);
 	printf("%s\n", buf);
 	for(i=0; i<len/2; i++){
 		char t = buf[i];
