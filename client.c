@@ -2,6 +2,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <unistd.h>
 #include "conf.h"
  
 int main(int argc, char** argv){
@@ -19,7 +22,7 @@ int main(int argc, char** argv){
 	addr.sin_addr.s_addr = inet_addr(SERVERIP);
 
 	scanf(SCANFTXT,buf);
-	printf("[%s]\n", buf);
+	printf("%s -->\n", buf);
 	len = strnlen(buf, 16);
 
 	if(sendto(sd, buf, len, 0, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
