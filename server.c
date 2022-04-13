@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 		buf[i] = buf[len-1-i];
 		buf[len-1-i] = t;
 	}
-	if(sendto(sd, buf, len, 0, &from_addr, sizeof(from_addr)) < 0) {
+	if(sendto(sd, buf, len, 0, (struct sockaddr *)&from_addr, sizeof(from_addr)) < 0) {
 		perror("sendto");
 		return -1;
 	}
