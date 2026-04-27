@@ -54,6 +54,7 @@ int main(int argc, char** argv){
 		perror("cannot sendto");
 		return -1;
 	}
+	printf("--> %s\n", buf);
 
 	close(sd);
 
