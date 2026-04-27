@@ -23,18 +23,21 @@ int main(int argc, char** argv){
 
 	scanf(SCANFTXT,buf);
 	printf("%s -->\n", buf);
-	len = strnlen(buf, 16);
+	len = strnlen(buf, BUFSIZE);
 
 	if(sendto(sd, buf, len, 0, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
 		perror("cannot sendto");
 		return -1;
 	}
 	struct sockaddr_in from_addr;
-	socklen_t sin_size;
-	if(recvfrom(sd, buf, sizeof(buf), 0, (struct sockaddr *)&from_addr, &sin_size) < 0) {
+	socklen_t sin_size=sizeof(from_addr);
+	len = recvfrom(sd, buf, BUFSIZE, 0, (struct sockaddr *)&from_addr, &sin_size);
+	if( len < 0) {
 		perror("cannot recvfrom");
 		return -1;
 	}
+	buf[len] = '\0';
+	printf("<-- %s\n", buf);
 
 	close(sd);
 
