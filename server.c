@@ -13,7 +13,7 @@ int main(int argc, char** argv){
 	socklen_t sin_size;
 	struct sockaddr_in from_addr;
 
-	char buf[2048];
+	char buf[BUFSIZE+1];
 
 	if((sd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 		perror("cannot socket");
@@ -32,7 +32,8 @@ int main(int argc, char** argv){
 	memset(buf, 0, sizeof(buf));
 
 	sin_size = sizeof(from_addr);
-	if(recvfrom(sd, buf, sizeof(buf), 0, (struct sockaddr *) &from_addr, &sin_size) < 0) {
+	len = recvfrom(sd, buf, sizeof(buf), 0, (struct sockaddr *) &from_addr, &sin_size);
+	if( len < 0) {
 		perror("cannot recvfrom");
 		return -1;
 	}
